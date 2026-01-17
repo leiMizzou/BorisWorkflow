@@ -323,15 +323,18 @@ install_ralph() {
 
     get_file "commands/setup-ralph-loop.md" > ".claude/commands/setup-ralph-loop.md"
 
-    # 添加 ralph-loop 到 plugins
+    # 添加 ralph-loop 到 plugins 配置
     if [[ -f ".claude/settings.json" ]] && command -v jq &> /dev/null; then
         local current=$(cat .claude/settings.json)
         echo "$current" | jq '. + {plugins: ["ralph-loop"]}' > .claude/settings.json.tmp
         mv .claude/settings.json.tmp .claude/settings.json
     fi
 
-    print_success "Ralph Loop 已配置"
-    print_info "使用 /ralph-loop 启动自主开发循环"
+    print_success "Ralph Loop 配置已添加"
+    echo ""
+    print_warning "重要：还需要在 Claude Code 中安装插件！"
+    print_info "请在 Claude Code 中运行: /install-plugin ralph-loop"
+    echo ""
 }
 
 # 显示完成信息
@@ -367,13 +370,17 @@ show_completion() {
     echo ""
 
     if [[ "$WITH_RALPH" == true ]]; then
-        echo -e "  3. 使用 Ralph Loop 自主开发："
+        echo -e "  3. ${RED}安装 Ralph Loop 插件（必须）：${NC}"
+        echo ""
+        echo -e "     ${YELLOW}/install-plugin ralph-loop${NC}"
+        echo ""
+        echo -e "  4. 使用 Ralph Loop 自主开发："
         echo ""
         echo -e "     ${YELLOW}/ralph-loop \"你的任务\" --max-iterations 30${NC}"
         echo ""
     fi
 
-    echo -e "${CYAN}文档：${NC} https://github.com/your-repo/claude-code-boris-workflow"
+    echo -e "${CYAN}文档：${NC} https://github.com/leiMizzou/BorisWorkflow"
     echo ""
 }
 
