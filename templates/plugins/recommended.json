@@ -1,19 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "_comment": "推荐的 Claude Code MCP 插件配置",
+  "_comment": "Recommended MCP plugins / 推荐的 Claude Code MCP 插件配置",
   "mcpServers": {
     "context7": {
-      "_description": "获取任何库的最新文档，避免使用过时 API",
+      "_description": "Get latest library docs, avoid outdated APIs / 获取最新文档，避免过时 API",
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "playwright": {
-      "_description": "浏览器自动化，截图、填表、E2E 测试",
+      "_description": "Browser automation, screenshots, forms, E2E tests / 浏览器自动化，截图、填表、E2E 测试",
       "command": "npx",
       "args": ["-y", "@anthropic/playwright-mcp@latest"]
     },
     "github": {
-      "_description": "GitHub API 集成，Issue/PR/仓库管理",
+      "_description": "GitHub API integration, Issue/PR/repo management / GitHub API 集成，Issue/PR/仓库管理",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
@@ -21,12 +21,12 @@
       }
     },
     "fetch": {
-      "_description": "增强的 HTTP 请求能力",
+      "_description": "Enhanced HTTP request capabilities / 增强的 HTTP 请求能力",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-fetch"]
     },
     "memory": {
-      "_description": "持久化记忆，跨会话保存信息",
+      "_description": "Persistent memory across sessions / 持久化记忆，跨会话保存信息",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"]
     }

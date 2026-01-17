@@ -51,6 +51,43 @@ arguments:
 | filesystem | 高级文件操作 | 复杂文件处理 |
 | memory | 持久化记忆 | 长期项目 |
 
+### 自主开发插件
+
+| 插件名 | 功能 | 适用场景 |
+|--------|------|----------|
+| ralph-loop | 自主循环开发 | 过夜任务、TDD 工作流 |
+
+**Ralph Loop** 是 Geoffrey Huntley 的自主循环技术，让 Claude 能够自主迭代直到任务完成。详见 `/setup-ralph-loop`。
+
+### 设计与文档插件
+
+| 插件名 | 功能 | 适用场景 |
+|--------|------|----------|
+| figma | Figma 设计稿转代码 | UI 开发、设计还原 |
+| office | Word/Excel/PPT 自动化 | 文档生成、数据处理 |
+
+**Figma MCP** - 官方插件，支持从 Figma 设计稿生成代码，提取设计变量和组件。
+
+```bash
+# 安装 Figma 插件
+claude plugin install figma@claude-plugins-official
+```
+
+**Office MCP** - 支持 Word、Excel、PowerPoint 文档的创建和编辑。
+
+```json
+{
+  "mcpServers": {
+    "office-word": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/office-word-mcp"]
+    }
+  }
+}
+```
+
+> 参考: [Figma MCP Server](https://www.figma.com/blog/introducing-figma-mcp-server/) | [OfficeMCP](https://github.com/OfficeMCP/OfficeMCP)
+
 ### Web 开发插件
 
 | 插件名 | 功能 |
@@ -84,22 +121,22 @@ arguments:
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@anthropic/context7-mcp"]
+      "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@anthropic/playwright-mcp"]
+      "args": ["-y", "@anthropic/playwright-mcp@latest"]
     },
     "github": {
       "command": "npx",
-      "args": ["-y", "@anthropic/github-mcp"],
+      "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
-        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       }
     },
     "fetch": {
       "command": "npx",
-      "args": ["-y", "@anthropic/fetch-mcp"]
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
     }
   }
 }
@@ -112,25 +149,22 @@ arguments:
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@anthropic/context7-mcp"]
-    },
-    "jupyter": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/jupyter-mcp"]
-    },
-    "postgres": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/postgres-mcp"],
-      "env": {
-        "DATABASE_URL": "${DATABASE_URL}"
-      }
+      "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@anthropic/filesystem-mcp"],
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${PWD}"]
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
       "env": {
-        "ALLOWED_DIRECTORIES": "${PWD}"
+        "POSTGRES_CONNECTION_STRING": "${DATABASE_URL}"
       }
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
     }
   }
 }
@@ -143,25 +177,18 @@ arguments:
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@anthropic/context7-mcp"]
+      "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "github": {
       "command": "npx",
-      "args": ["-y", "@anthropic/github-mcp"],
+      "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
-        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       }
     },
-    "docker": {
+    "filesystem": {
       "command": "npx",
-      "args": ["-y", "@anthropic/docker-mcp"]
-    },
-    "aws": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/aws-mcp"],
-      "env": {
-        "AWS_PROFILE": "default"
-      }
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${PWD}"]
     }
   }
 }
@@ -174,11 +201,42 @@ arguments:
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@anthropic/context7-mcp"]
+      "args": ["-y", "@upstash/context7-mcp@latest"]
     }
   }
 }
 ```
+
+### Ralph Loop 插件 (--with-ralph)
+
+启用自主循环开发能力，让 Claude 能够自主迭代直到任务完成。
+
+```json
+{
+  "plugins": ["ralph-loop"]
+}
+```
+
+**安装方式**：
+
+```bash
+# 方式 1: 通过 install.sh
+./install.sh --with-ralph
+
+# 方式 2: 在 Claude Code 中安装
+/install-plugin ralph-loop
+
+# 方式 3: 手动添加到 settings.json
+# 在 settings.json 中添加 "plugins": ["ralph-loop"]
+```
+
+**使用示例**：
+
+```bash
+/ralph-loop "实现用户认证系统，测试覆盖率 > 80%，完成后输出 <promise>DONE</promise>" --max-iterations 30 --completion-promise "DONE"
+```
+
+详细用法请参考 `/setup-ralph-loop`。
 
 ## 执行步骤
 
@@ -212,11 +270,11 @@ npx --version || echo "需要安装 npm"
 
 ### 4. 验证插件
 
-```bash
-# 测试每个插件是否可以启动
-for plugin in context7 playwright github; do
-  npx -y @anthropic/${plugin}-mcp --help 2>/dev/null && echo "✅ ${plugin}" || echo "❌ ${plugin}"
-done
+重启 Claude Code 后，插件会自动加载。可通过以下方式验证：
+
+```
+在 Claude Code 中输入: /plugins
+查看已加载的 MCP 工具列表
 ```
 
 ### 5. 写入配置
@@ -323,7 +381,6 @@ export AWS_PROFILE="default"
 /setup-permissions --preset node
 /setup-plugins --preset web-dev
 /setup-format-hook --formatter prettier
-```
 ```
 
 ## 常用插件详解

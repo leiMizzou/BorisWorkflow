@@ -1,0 +1,44 @@
+{
+  "_comment": "Recommended permissions - Balanced security and convenience / 推荐权限预设 - 平衡安全性和便利性",
+  "permissions": {
+    "allow": [
+      "Bash(PKG_MANAGER:*)",
+      "Bash(PKG_MANAGER run build:*)",
+      "Bash(PKG_MANAGER run lint:*)",
+      "Bash(PKG_MANAGER run test:*)",
+      "Bash(PKG_MANAGER run typecheck:*)",
+      "Bash(PKG_MANAGER run format:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(tsc:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(which:*)",
+      "Bash(wc:*)",
+      "Read(*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf /*)",
+      "Bash(sudo:*)",
+      "Bash(chmod 777:*)",
+      "Bash(curl:* | bash)",
+      "Bash(wget:* | bash)",
+      "Bash(git push --force origin main)",
+      "Bash(git push --force origin master)",
+      "Bash(git push --force:*)",
+      "Write(*.env)",
+      "Write(*credentials*)",
+      "Write(*secret*)"
+    ]
+  }
+}

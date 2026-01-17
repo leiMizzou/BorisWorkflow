@@ -1,24 +1,26 @@
 #!/bin/bash
 #
-# Boris Cherny 风格 Claude Code 工作流一键安装脚本
+# BorisWorkflow - One-click installer for Boris Cherny style Claude Code workflow
+# BorisWorkflow - Boris Cherny 风格 Claude Code 工作流一键安装脚本
 #
-# 使用方式:
-#   curl -fsSL https://raw.githubusercontent.com/your-repo/claude-code-boris-workflow/main/install.sh | bash
-#   或
-#   ./install.sh [选项]
+# Usage / 使用方式:
+#   curl -fsSL https://raw.githubusercontent.com/leiMizzou/BorisWorkflow/main/install.sh | bash
+#   or / 或
+#   ./install.sh [options / 选项]
 #
-# 选项:
-#   --minimal     仅安装 CLAUDE.md 和基础配置
-#   --full        安装所有功能（默认）
-#   --with-ralph  包含 Ralph Loop 插件
-#   --preset      预设: node, python, web-dev, data-science
-#   --no-plugins  不配置 MCP 插件
-#   --help        显示帮助
+# Options / 选项:
+#   --minimal           Install only CLAUDE.md and basic config / 仅安装 CLAUDE.md 和基础配置
+#   --full              Install all features (default) / 安装所有功能（默认）
+#   --with-ralph        Include Ralph Loop plugin / 包含 Ralph Loop 插件
+#   --preset <name>     Presets: node, python, web-dev, data-science / 预设配置
+#   --permission-level  Permission level: minimal, recommended, full / 权限级别
+#   --no-plugins        Don't configure MCP plugins / 不配置 MCP 插件
+#   --help              Show help / 显示帮助
 #
 
 set -e
 
-# 颜色定义
+# Color definitions / 颜色定义
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -27,26 +29,27 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# 配置变量
+# Configuration variables / 配置变量
 INSTALL_MODE="full"
 PRESET="auto"
 WITH_RALPH=false
 WITH_PLUGINS=true
+PERMISSION_LEVEL="recommended"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 检测是否从远程运行
+# Detect if running from remote / 检测是否从远程运行
 if [[ ! -f "$SCRIPT_DIR/templates/CLAUDE.md" ]]; then
     REMOTE_MODE=true
-    REPO_URL="https://raw.githubusercontent.com/your-username/claude-code-boris-workflow/main"
+    REPO_URL="https://raw.githubusercontent.com/leiMizzou/BorisWorkflow/main"
 else
     REMOTE_MODE=false
 fi
 
-# 打印带颜色的消息
+# Print colored messages / 打印带颜色的消息
 print_header() {
     echo ""
     echo -e "${PURPLE}╔══════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${PURPLE}║${NC}  ${CYAN}🚀 Boris Cherny 风格 Claude Code 工作流安装器${NC}           ${PURPLE}║${NC}"
+    echo -e "${PURPLE}║${NC}  ${CYAN}BorisWorkflow - Claude Code Workflow Installer${NC}          ${PURPLE}║${NC}"
     echo -e "${PURPLE}╚══════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
@@ -80,17 +83,21 @@ Boris Cherny 风格 Claude Code 工作流安装器
   ./install.sh [选项]
 
 选项:
-  --minimal       仅安装 CLAUDE.md 和基础权限配置
-  --full          安装所有功能（默认）
-  --with-ralph    包含 Ralph Loop 自主循环插件
-  --preset <name> 使用预设配置:
-                    node        - Node.js/TypeScript 项目
-                    python      - Python 项目
-                    web-dev     - Web 开发全套
-                    data-science - 数据科学项目
-  --no-plugins    不配置 MCP 插件
-  --interactive   交互式选择功能
-  --help          显示此帮助信息
+  --minimal         仅安装 CLAUDE.md 和基础权限配置
+  --full            安装所有功能（默认）
+  --with-ralph      包含 Ralph Loop 自主循环插件
+  --preset <name>   使用预设配置:
+                      node        - Node.js/TypeScript 项目
+                      python      - Python 项目
+                      web-dev     - Web 开发全套
+                      data-science - 数据科学项目
+  --permission-level <level>  权限预设级别:
+                      minimal     - 最小权限（仅只读）
+                      recommended - 推荐（默认，平衡安全与便利）
+                      full        - 完整权限（最大便利性）
+  --no-plugins      不配置 MCP 插件
+  --interactive     交互式选择功能
+  --help            显示此帮助信息
 
 示例:
   ./install.sh                          # 完整安装，自动检测项目类型
@@ -217,18 +224,27 @@ install_claude_md() {
         mv CLAUDE.md CLAUDE.md.backup.$(date +%Y%m%d%H%M%S)
     fi
 
-    get_file "templates/CLAUDE.md" > CLAUDE.md
+    local pkg_manager=$(get_package_manager)
+    get_file "templates/CLAUDE.md" | sed "s/{{PKG_MANAGER}}/${pkg_manager}/g" > CLAUDE.md
 
-    # 根据项目类型调整
-    local project_type=$(detect_project_type)
-    case $project_type in
-        python)
-            sed -i.bak 's/bun/pip/g; s/npm/pip/g' CLAUDE.md 2>/dev/null || true
-            rm -f CLAUDE.md.bak
-            ;;
-    esac
+    print_success "CLAUDE.md 已创建 (包管理器: $pkg_manager)"
+}
 
-    print_success "CLAUDE.md 已创建"
+# 获取包管理器
+get_package_manager() {
+    if [[ -f "bun.lockb" ]] || grep -q '"bun"' package.json 2>/dev/null; then
+        echo "bun"
+    elif [[ -f "pnpm-lock.yaml" ]]; then
+        echo "pnpm"
+    elif [[ -f "yarn.lock" ]]; then
+        echo "yarn"
+    elif [[ -f "package-lock.json" ]] || [[ -f "package.json" ]]; then
+        echo "npm"
+    elif [[ -f "requirements.txt" ]] || [[ -f "pyproject.toml" ]]; then
+        echo "pip"
+    else
+        echo "npm"
+    fi
 }
 
 # 安装权限配置
@@ -236,25 +252,85 @@ install_settings() {
     print_step "配置 settings.json..."
 
     local settings_file=".claude/settings.json"
+    local pkg_manager=$(get_package_manager)
+    local permission_level="${PERMISSION_LEVEL:-recommended}"
 
     if [[ -f "$settings_file" ]]; then
-        print_warning "settings.json 已存在，合并配置..."
-        # TODO: 智能合并
+        print_warning "settings.json 已存在，创建备份..."
+        cp "$settings_file" "$settings_file.backup.$(date +%Y%m%d%H%M%S)"
     fi
 
-    # 根据预设选择配置
-    case $PRESET in
-        python)
-            get_file "commands/setup-permissions.md" | \
-            sed -n '/### Python 项目/,/```$/p' | \
-            sed -n '/```json/,/```/p' | sed '1d;$d' > "$settings_file"
-            ;;
-        *)
-            get_file "templates/settings.json" > "$settings_file"
-            ;;
-    esac
+    # 获取权限预设模板并替换包管理器
+    local template_file="templates/permissions/${permission_level}.json"
+    local template=$(get_file "$template_file" | sed "s/PKG_MANAGER/${pkg_manager}/g")
 
-    print_success "settings.json 已配置"
+    # 添加格式化 hook
+    local format_cmd="${pkg_manager} run format || true"
+    if [[ "$pkg_manager" == "pip" ]]; then
+        format_cmd="black . || ruff format . || true"
+    fi
+
+    # 使用 jq 如果可用，否则使用 sed 构建配置
+    if command -v jq &> /dev/null; then
+        echo "$template" | jq --arg cmd "$format_cmd" '. + {
+          hooks: {
+            PostToolUse: [{
+              matcher: "Write|Edit",
+              hooks: [{
+                type: "command",
+                command: $cmd
+              }]
+            }]
+          }
+        }' | jq 'del(._comment)' > "$settings_file"
+    else
+        # 不使用 jq 的备用方案：直接写入完整配置
+        cat > "$settings_file" << SETTINGS_EOF
+{
+  "permissions": {
+    "allow": [
+      "Bash(${pkg_manager}:*)",
+      "Bash(${pkg_manager} run:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Read(*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(sudo:*)",
+      "Bash(curl:* | bash)",
+      "Bash(git push --force origin main)",
+      "Bash(git push --force origin master)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${format_cmd}"
+          }
+        ]
+      }
+    ]
+  }
+}
+SETTINGS_EOF
+    fi
+
+    print_success "settings.json 已配置 (包管理器: $pkg_manager, 权限级别: $permission_level)"
 }
 
 # 安装 agents
@@ -298,14 +374,17 @@ install_plugins() {
         minimal) plugins_preset="minimal" ;;
     esac
 
-    # 读取插件配置并合并到 settings.json
+    # 读取插件配置
     local plugins_config=$(get_file "templates/plugins/${plugins_preset}.json")
 
     if [[ -f ".claude/settings.json" ]]; then
         # 使用 jq 合并（如果可用）
         if command -v jq &> /dev/null; then
             local current=$(cat .claude/settings.json)
-            echo "$current" | jq --argjson plugins "$plugins_config" '. + {mcpServers: $plugins.mcpServers}' > .claude/settings.json.tmp
+            # 清理插件配置中的注释字段，然后合并
+            local clean_plugins=$(echo "$plugins_config" | jq 'del(.["$schema"], ._comment)')
+            local mcp_servers=$(echo "$clean_plugins" | jq '.mcpServers')
+            echo "$current" | jq --argjson mcp "$mcp_servers" '. + {mcpServers: $mcp}' > .claude/settings.json.tmp
             mv .claude/settings.json.tmp .claude/settings.json
         else
             print_warning "jq 未安装，插件配置需要手动合并"
@@ -410,6 +489,10 @@ main() {
                 ;;
             --preset)
                 PRESET="$2"
+                shift 2
+                ;;
+            --permission-level)
+                PERMISSION_LEVEL="$2"
                 shift 2
                 ;;
             --interactive|-i)

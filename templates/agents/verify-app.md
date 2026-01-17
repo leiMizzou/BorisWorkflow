@@ -1,10 +1,11 @@
 # Verify App Agent
 
-## 目标
+## Objective / 目标
 
+End-to-end verification of application state, ensuring code changes don't break existing functionality.
 端到端验证应用状态，确保代码变更不会破坏现有功能。
 
-## 验证流程
+## Verification Flow / 验证流程
 
 ```
 ┌─────────────┐

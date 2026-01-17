@@ -1,9 +1,13 @@
 # BorisWorkflow
 
 > 基于 Boris Cherny 的 13 个 Claude Code 最佳实践，一键配置高效 AI 编程工作流
+>
+> One-click setup for an efficient AI programming workflow based on Boris Cherny's 13 Claude Code best practices
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Compatible-blue)](https://claude.ai/code)
+
+中文 | [English](./README_EN.md)
 
 ---
 
@@ -97,19 +101,28 @@ Claude 的"记忆文件"，让 Claude 了解你的项目：
 - 记录 Claude 犯过的错误，避免重复
 ```
 
-### 2. 权限配置
+### 2. 权限配置（三档预设）
 
-**安全白名单**（自动允许）：
-- 包管理器：`bun`, `npm`, `npx`, `yarn`
-- Git 操作：`status`, `diff`, `log`, `add`, `commit`, `push`
-- 测试构建：`test`, `build`, `lint`, `typecheck`
-- 文件操作：`Read(*)`, `Write(*)`, `Edit(*)`
+**最小权限 (minimal)** - 仅只读操作：
+- Git: `status`, `diff`, `log`, `branch`
+- 文件: `Read(*)`
+- 系统: `ls`, `pwd`, `which`
 
-**危险黑名单**（自动拒绝）：
-- `rm -rf /`, `rm -rf ~`
-- `sudo:*`
+**推荐权限 (recommended)** - 平衡安全与便利（默认）：
+- 包管理器: 自动检测的 `bun/npm/yarn/pnpm` + `run` 命令
+- Git: `status`, `diff`, `log`, `add`, `commit`, `branch`, `checkout`, `stash`
+- 文件: `Read(*)`（Write/Edit 需确认）
+
+**完整权限 (full)** - 最大便利性：
+- 包管理器: 所有命令
+- Git: 所有操作（包括 push）
+- 文件: `Read(*)`, `Write(*)`, `Edit(*)`
+- 系统: `mkdir`, `cp`, `mv`, `touch`
+
+**始终拒绝**（所有级别）：
+- `rm -rf /`, `rm -rf ~`, `sudo:*`
 - `curl * | bash`, `wget * | bash`
-- `git push --force origin main`
+- `git push --force origin main/master`
 
 ### 3. 斜杠命令
 
@@ -145,13 +158,15 @@ Claude 的"记忆文件"，让 Claude 了解你的项目：
 | `context7` | 获取最新文档 | 避免使用过时的 API |
 | `playwright` | 浏览器自动化 | 截图、E2E 测试 |
 | `github` | GitHub API | Issue、PR 管理 |
+| `figma` | 设计稿转代码 | UI 开发、设计还原 |
+| `office` | Word/Excel/PPT | 文档生成、报告自动化 |
 | `fetch` | HTTP 请求 | 调试 API |
 | `memory` | 持久化记忆 | 跨会话保存信息 |
 
 **预设配置**：
 - `minimal` - 仅 context7（所有项目推荐）
 - `recommended` - 5 个核心插件
-- `web-dev` - Web 开发全套
+- `web-dev` - Web 开发全套 + Figma
 - `data-science` - 数据科学全套
 
 ### 6. Ralph Loop 自主循环
@@ -182,7 +197,7 @@ Claude 的"记忆文件"，让 Claude 了解你的项目：
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/BorisWorkflow.git
+git clone https://github.com/leiMizzou/BorisWorkflow.git
 
 # 进入你的项目目录
 cd your-project
@@ -193,13 +208,26 @@ cd your-project
 
 **安装选项**：
 ```bash
-./install.sh                      # 交互式安装
-./install.sh --preset node        # Node.js 项目
-./install.sh --preset python      # Python 项目
-./install.sh --full --with-ralph  # 完整 + Ralph Loop
-./install.sh --minimal            # 仅 CLAUDE.md
-./install.sh --help               # 查看帮助
+./install.sh                              # 交互式安装
+./install.sh --preset node                # Node.js 项目
+./install.sh --preset python              # Python 项目
+./install.sh --full --with-ralph          # 完整 + Ralph Loop
+./install.sh --minimal                    # 仅 CLAUDE.md
+./install.sh --permission-level minimal   # 最小权限（只读）
+./install.sh --permission-level full      # 完整权限
+./install.sh --help                       # 查看帮助
 ```
+
+**权限级别**：
+| 级别 | 说明 | 适用场景 |
+|------|------|----------|
+| `minimal` | 仅只读操作 | 不信任的环境、审查代码 |
+| `recommended` | 平衡安全与便利（默认） | 日常开发 |
+| `full` | 完整权限 | 信任的项目环境 |
+
+**自动检测**：
+- 包管理器：自动检测 bun/npm/yarn/pnpm/pip
+- 项目类型：自动检测 Node.js/Python/Rust/Go
 
 ### 方式 2：Claude Code 中初始化
 

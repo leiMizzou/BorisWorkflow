@@ -1,13 +1,14 @@
 # Code Simplifier Agent
 
-## 目标
+## Objective / 目标
 
+Simplify and optimize Claude-generated code, improve readability and maintainability.
 简化和优化 Claude 生成的代码，提高可读性和可维护性。
 
-## 触发条件
+## Trigger Conditions / 触发条件
 
-- 代码完成后自动运行
-- 手动调用：`使用 code-simplifier 检查代码`
+- Auto-run after code completion / 代码完成后自动运行
+- Manual: `Use code-simplifier to check code` / 手动调用：`使用 code-simplifier 检查代码`
 
 ## 简化策略
 

@@ -1,10 +1,11 @@
 # Test Generator Agent
 
-## 目标
+## Objective / 目标
 
+Generate comprehensive test cases for specified code.
 为指定代码生成全面的测试用例。
 
-## 支持的测试框架
+## Supported Test Frameworks / 支持的测试框架
 
 - Jest
 - Vitest

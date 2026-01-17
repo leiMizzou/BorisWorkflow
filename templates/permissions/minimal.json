@@ -1,0 +1,29 @@
+{
+  "_comment": "Minimal permissions - Read-only operations only / 最小权限预设 - 仅允许只读操作",
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(which:*)",
+      "Bash(node --version)",
+      "Bash(bun --version)",
+      "Bash(npm --version)",
+      "Read(*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf /*)",
+      "Bash(sudo:*)",
+      "Bash(chmod 777:*)",
+      "Bash(curl:* | bash)",
+      "Bash(wget:* | bash)",
+      "Bash(git push --force origin main)",
+      "Bash(git push --force origin master)"
+    ]
+  }
+}

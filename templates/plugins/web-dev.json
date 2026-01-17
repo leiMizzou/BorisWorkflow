@@ -1,19 +1,24 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "_comment": "Web 开发 MCP 插件配置",
+  "_comment": "Web development MCP plugins / Web 开发 MCP 插件配置",
   "mcpServers": {
     "context7": {
-      "_description": "获取 React/Vue/Next.js 等框架的最新文档",
+      "_description": "Get React/Vue/Next.js docs / 获取 React/Vue/Next.js 等框架的最新文档",
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "playwright": {
-      "_description": "浏览器自动化，截图、填表、E2E 测试",
+      "_description": "Browser automation, screenshots, E2E tests / 浏览器自动化，截图、E2E 测试",
       "command": "npx",
       "args": ["-y", "@anthropic/playwright-mcp@latest"]
     },
+    "figma": {
+      "_description": "Figma design to code, extract design variables / Figma 设计稿转代码，提取设计变量",
+      "_install_note": "Recommended: claude plugin install figma@claude-plugins-official",
+      "url": "http://127.0.0.1:3845/mcp"
+    },
     "github": {
-      "_description": "GitHub API 集成",
+      "_description": "GitHub API integration / GitHub API 集成",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
@@ -21,19 +26,20 @@
       }
     },
     "fetch": {
-      "_description": "增强的 HTTP 请求能力，调试 API",
+      "_description": "Enhanced HTTP requests, API debugging / 增强的 HTTP 请求，调试 API",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-fetch"]
     },
     "puppeteer": {
-      "_description": "Puppeteer 浏览器自动化",
+      "_description": "Puppeteer browser automation / Puppeteer 浏览器自动化",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
     },
     "sqlite": {
-      "_description": "本地 SQLite 数据库操作",
+      "_description": "Local SQLite database operations / 本地 SQLite 数据库操作",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-sqlite"]
     }
-  }
+  },
+  "_plugins_note": "Figma plugin recommended via: claude plugin install figma@claude-plugins-official"
 }

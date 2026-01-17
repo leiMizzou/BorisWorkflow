@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "_comment": "数据科学 MCP 插件配置",
+  "_comment": "Data science MCP plugins / 数据科学 MCP 插件配置",
   "mcpServers": {
     "context7": {
-      "_description": "获取 pandas/numpy/sklearn 等库的最新文档",
+      "_description": "Get pandas/numpy/sklearn docs / 获取 pandas/numpy/sklearn 等库的最新文档",
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp@latest"]
     },
     "filesystem": {
-      "_description": "高级文件系统操作，处理数据文件",
+      "_description": "Advanced file operations for data files / 高级文件系统操作，处理数据文件",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem"],
       "env": {
@@ -16,7 +16,7 @@
       }
     },
     "postgres": {
-      "_description": "PostgreSQL 数据库操作",
+      "_description": "PostgreSQL database operations / PostgreSQL 数据库操作",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-postgres"],
       "env": {
@@ -24,12 +24,12 @@
       }
     },
     "fetch": {
-      "_description": "HTTP 请求，获取外部数据",
+      "_description": "HTTP requests for external data / HTTP 请求，获取外部数据",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-fetch"]
     },
     "memory": {
-      "_description": "持久化记忆，保存分析结果",
+      "_description": "Persistent memory for analysis results / 持久化记忆，保存分析结果",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"]
     }
