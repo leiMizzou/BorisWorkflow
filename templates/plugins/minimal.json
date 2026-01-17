@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "最小化 MCP 插件配置 - 仅包含最核心的插件",
+  "mcpServers": {
+    "context7": {
+      "_description": "获取任何库的最新文档",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    }
+  }
+}

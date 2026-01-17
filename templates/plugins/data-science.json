@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "数据科学 MCP 插件配置",
+  "mcpServers": {
+    "context7": {
+      "_description": "获取 pandas/numpy/sklearn 等库的最新文档",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "filesystem": {
+      "_description": "高级文件系统操作，处理数据文件",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "env": {
+        "ALLOWED_DIRECTORIES": "${PWD}"
+      }
+    },
+    "postgres": {
+      "_description": "PostgreSQL 数据库操作",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    },
+    "fetch": {
+      "_description": "HTTP 请求，获取外部数据",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    },
+    "memory": {
+      "_description": "持久化记忆，保存分析结果",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    }
+  }
+}

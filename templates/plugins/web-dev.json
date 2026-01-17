@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "Web 开发 MCP 插件配置",
+  "mcpServers": {
+    "context7": {
+      "_description": "获取 React/Vue/Next.js 等框架的最新文档",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "playwright": {
+      "_description": "浏览器自动化，截图、填表、E2E 测试",
+      "command": "npx",
+      "args": ["-y", "@anthropic/playwright-mcp@latest"]
+    },
+    "github": {
+      "_description": "GitHub API 集成",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "fetch": {
+      "_description": "增强的 HTTP 请求能力，调试 API",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    },
+    "puppeteer": {
+      "_description": "Puppeteer 浏览器自动化",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    },
+    "sqlite": {
+      "_description": "本地 SQLite 数据库操作",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sqlite"]
+    }
+  }
+}

@@ -1,0 +1,359 @@
+# /setup-plugins
+
+配置 Claude Code 的 MCP 插件，自动安装和配置常用的 MCP 服务器。
+
+## 使用方式
+
+```
+/setup-plugins
+/setup-plugins --preset web-dev
+/setup-plugins --preset data-science
+/setup-plugins --list
+/setup-plugins --add context7
+```
+
+## 命令模板
+
+将以下内容保存到 `.claude/commands/setup-plugins.md`:
+
+```markdown
+---
+name: setup-plugins
+description: 配置 Claude Code MCP 插件
+arguments:
+  - name: preset
+    description: 预设配置 (web-dev/data-science/devops/minimal)
+    required: false
+    default: auto
+  - name: add
+    description: 添加单个插件
+    required: false
+  - name: list
+    description: 列出已安装的插件
+    required: false
+---
+
+# 配置 Claude Code 插件
+
+## 任务
+
+配置 Claude Code 的 MCP (Model Context Protocol) 服务器，扩展 Claude 的能力。
+
+## 可用插件列表
+
+### 核心推荐插件
+
+| 插件名 | 功能 | 适用场景 |
+|--------|------|----------|
+| context7 | 获取最新库文档 | 所有开发项目 |
+| playwright | 浏览器自动化 | Web 开发、测试 |
+| github | GitHub 集成 | 所有 Git 项目 |
+| filesystem | 高级文件操作 | 复杂文件处理 |
+| memory | 持久化记忆 | 长期项目 |
+
+### Web 开发插件
+
+| 插件名 | 功能 |
+|--------|------|
+| puppeteer | 浏览器自动化 |
+| fetch | HTTP 请求增强 |
+| sqlite | 本地数据库 |
+
+### 数据科学插件
+
+| 插件名 | 功能 |
+|--------|------|
+| jupyter | Jupyter 集成 |
+| postgres | PostgreSQL 数据库 |
+| slack | Slack 通知 |
+
+### DevOps 插件
+
+| 插件名 | 功能 |
+|--------|------|
+| docker | Docker 管理 |
+| kubernetes | K8s 操作 |
+| aws | AWS 服务 |
+
+## 预设配置
+
+### Web 开发预设 (--preset web-dev)
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/context7-mcp"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/playwright-mcp"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/github-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/fetch-mcp"]
+    }
+  }
+}
+```
+
+### 数据科学预设 (--preset data-science)
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/context7-mcp"]
+    },
+    "jupyter": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/jupyter-mcp"]
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/postgres-mcp"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/filesystem-mcp"],
+      "env": {
+        "ALLOWED_DIRECTORIES": "${PWD}"
+      }
+    }
+  }
+}
+```
+
+### DevOps 预设 (--preset devops)
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/context7-mcp"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/github-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "docker": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/docker-mcp"]
+    },
+    "aws": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/aws-mcp"],
+      "env": {
+        "AWS_PROFILE": "default"
+      }
+    }
+  }
+}
+```
+
+### 最小预设 (--preset minimal)
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/context7-mcp"]
+    }
+  }
+}
+```
+
+## 执行步骤
+
+### 1. 检测已有配置
+
+```bash
+# 检查全局配置
+if [ -f ~/.claude/settings.json ]; then
+  echo "发现全局配置"
+fi
+
+# 检查项目配置
+if [ -f .claude/settings.json ]; then
+  echo "发现项目配置"
+fi
+```
+
+### 2. 合并配置
+
+将新的 MCP 服务器配置与现有配置合并，不覆盖已有设置。
+
+### 3. 检查依赖
+
+```bash
+# 确保 Node.js 可用
+node --version || echo "需要安装 Node.js"
+
+# 检查 npx
+npx --version || echo "需要安装 npm"
+```
+
+### 4. 验证插件
+
+```bash
+# 测试每个插件是否可以启动
+for plugin in context7 playwright github; do
+  npx -y @anthropic/${plugin}-mcp --help 2>/dev/null && echo "✅ ${plugin}" || echo "❌ ${plugin}"
+done
+```
+
+### 5. 写入配置
+
+配置文件位置选项：
+- 全局配置: `~/.claude/settings.json`
+- 项目配置: `.claude/settings.json`
+
+## 输出示例
+
+```
+🔌 配置 Claude Code 插件
+
+📦 使用预设: web-dev
+
+检查依赖:
+  ✅ Node.js v20.10.0
+  ✅ npx 可用
+
+安装插件:
+  ✅ context7 - 最新库文档
+  ✅ playwright - 浏览器自动化
+  ✅ github - GitHub 集成
+  ✅ fetch - HTTP 请求
+
+配置已写入: .claude/settings.json
+
+┌─────────────────────────────────────────────────────────┐
+│ 已安装的插件                                              │
+├─────────────────────────────────────────────────────────┤
+│ 📚 context7    - 获取最新库文档                           │
+│ 🌐 playwright  - 浏览器自动化和测试                        │
+│ 🐙 github      - GitHub API 集成                         │
+│ 🔗 fetch       - 增强的 HTTP 请求能力                     │
+└─────────────────────────────────────────────────────────┘
+
+💡 提示:
+- 部分插件需要配置环境变量（如 GITHUB_TOKEN）
+- 使用 /plugins 查看可用的工具
+- 使用 /setup-plugins --list 查看已安装插件
+```
+
+## 单独添加插件
+
+```
+/setup-plugins --add context7
+/setup-plugins --add playwright
+/setup-plugins --add github
+```
+
+## 环境变量配置
+
+某些插件需要环境变量：
+
+```bash
+# GitHub 插件
+export GITHUB_TOKEN="your_github_token"
+
+# PostgreSQL 插件
+export DATABASE_URL="postgresql://user:pass@localhost:5432/db"
+
+# AWS 插件
+export AWS_PROFILE="default"
+```
+
+建议将这些添加到 `.env` 文件或 shell 配置中。
+
+## 故障排除
+
+### 插件无法启动
+
+```
+❌ 错误: context7 插件启动失败
+
+可能原因:
+1. Node.js 版本过低（需要 >= 18）
+2. 网络问题导致包下载失败
+3. 权限问题
+
+解决方案:
+1. 更新 Node.js: nvm install 20
+2. 检查网络连接
+3. 尝试: npm cache clean --force
+```
+
+### 找不到工具
+
+```
+⚠️ 插件已安装但工具未显示
+
+可能原因:
+- Claude Code 需要重启
+- 配置文件格式错误
+
+解决方案:
+1. 重启 Claude Code
+2. 运行 /setup-plugins --list 验证配置
+```
+
+## 与其他命令配合
+
+```bash
+# 初始化完整环境
+/setup-permissions --preset node
+/setup-plugins --preset web-dev
+/setup-format-hook --formatter prettier
+```
+```
+
+## 常用插件详解
+
+### Context7 (强烈推荐)
+
+获取任何库的最新文档，避免使用过时的 API。
+
+```
+使用 context7 查询 React 19 的新特性
+```
+
+### Playwright
+
+浏览器自动化，可以：
+- 截图网页
+- 填写表单
+- 运行 E2E 测试
+
+```
+使用 playwright 打开 https://example.com 并截图
+```
+
+### GitHub
+
+直接操作 GitHub：
+- 创建 Issue
+- 查看 PR
+- 管理仓库
+
+```
+使用 github 查看最近的 PR
+```
