@@ -1,6 +1,56 @@
 # /setup-ralph-loop
 
-配置 Ralph Wiggum 自主循环开发插件，实现 "睡觉时也能写代码" 的自动化开发。
+配置长任务处理方案，让 Claude 能够处理长时间运行的任务而不被中断。
+
+## Boris 第 12 条技巧：长任务处理
+
+Boris 推荐使用以下方案处理长时间运行的任务：
+
+| 方案 | 说明 | 适用场景 |
+|------|------|----------|
+| **Background Agents** | 在后台运行代理任务 | 并行处理多个任务 |
+| **Stop Hooks** | 配置钩子在特定条件下暂停 | 需要人工确认的关键点 |
+| **Ralph Loop** | 自主循环迭代直到完成 | 过夜开发、TDD 工作流 |
+
+### Background Agents（后台代理）
+
+Claude Code 支持在后台运行任务，不阻塞主会话：
+
+```bash
+# 在后台启动任务
+claude --background "运行完整测试套件并生成报告"
+
+# 查看后台任务状态
+claude tasks
+
+# 获取任务结果
+claude task-result <task-id>
+```
+
+### Stop Hooks（停止钩子）
+
+配置钩子在特定条件下暂停执行，等待人工确认：
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "condition": "command.includes('deploy') || command.includes('push')",
+        "action": "require_confirmation",
+        "message": "即将执行部署/推送操作，请确认"
+      }
+    ]
+  }
+}
+```
+
+### Ralph Loop（自主循环）
+
+最强大的长任务处理方案，让 Claude 自主迭代直到任务完成。
+
+---
 
 ## 什么是 Ralph Loop？
 

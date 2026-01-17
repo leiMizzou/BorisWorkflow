@@ -58,15 +58,14 @@ Boris 的 13 个技巧涉及：
 | 8 | **Subagents** | 专门的子代理处理特定任务 | ✅ 4 个 Agent |
 | 9 | **PostToolUse Hook** | 文件修改后自动格式化 | ✅ 自动配置 |
 | 10 | **Permissions** | 预设安全权限，避免频繁确认 | ✅ 预设配置 |
-| 11 | **MCP 集成** | 扩展 Claude 能力（文档、浏览器等） | ✅ 插件配置 |
-| 12 | **长任务验证** | 给 Claude 反馈循环验证结果 | ✅ verify-app |
-| 13 | **反馈循环** | 让 Claude 能看到执行结果并改进 | 设计原则 |
+| 11 | **工具集成 (MCP)** | 通过 MCP 服务器连接 Slack、BigQuery、Sentry 等工具 | ✅ 插件配置 |
+| 12 | **长任务处理** | Background agents、Stop hooks、Ralph Loop 等多种方案 | ✅ `/setup-ralph-loop` + 文档 |
+| 13 | **验证（最重要）** | 给 Claude 验证工作的方式，达到 2-3x 质量提升 | ✅ verify-app Agent |
 
 **额外功能**：
 
 | 功能 | 说明 |
 |------|------|
-| **Ralph Loop** | Geoffrey Huntley 的自主循环技术，"睡觉时也能写代码" |
 | **一键安装** | 交互式脚本，自动检测项目类型 |
 
 ---
@@ -151,25 +150,51 @@ Claude 的"记忆文件"，让 Claude 了解你的项目：
 请 test-generator 为 src/auth.ts 生成测试
 ```
 
-### 5. MCP 插件
+### 5. MCP 插件（工具集成）
+
+**核心插件**：
 
 | 插件 | 功能 | 为什么需要 |
 |------|------|-----------|
 | `context7` | 获取最新文档 | 避免使用过时的 API |
 | `playwright` | 浏览器自动化 | 截图、E2E 测试 |
 | `github` | GitHub API | Issue、PR 管理 |
-| `figma` | 设计稿转代码 | UI 开发、设计还原 |
-| `office` | Word/Excel/PPT | 文档生成、报告自动化 |
 | `fetch` | HTTP 请求 | 调试 API |
 | `memory` | 持久化记忆 | 跨会话保存信息 |
+
+**企业工具集成**（Boris 第 11 条）：
+
+| 插件 | 功能 | 为什么需要 |
+|------|------|-----------|
+| `slack` | Slack 消息通知 | 团队沟通、任务完成通知 |
+| `sentry` | 错误追踪 | 查看和分析生产错误 |
+| `bigquery` | BigQuery 数据仓库 | 查询和分析大规模数据 |
+
+**其他插件**：
+
+| 插件 | 功能 | 为什么需要 |
+|------|------|-----------|
+| `figma` | 设计稿转代码 | UI 开发、设计还原 |
+| `office` | Word/Excel/PPT | 文档生成、报告自动化 |
 
 **预设配置**：
 - `minimal` - 仅 context7（所有项目推荐）
 - `recommended` - 5 个核心插件
 - `web-dev` - Web 开发全套 + Figma
 - `data-science` - 数据科学全套
+- `enterprise` - 企业工具集成（Slack、Sentry、BigQuery）
 
-### 6. Ralph Loop 自主循环
+### 6. 长任务处理（Boris 第 12 条）
+
+Boris 推荐多种方案处理长时间运行的任务：
+
+| 方案 | 说明 | 适用场景 |
+|------|------|----------|
+| **Background Agents** | 后台运行代理任务 | 并行处理多个任务 |
+| **Stop Hooks** | 配置钩子在特定条件下暂停 | 需要人工确认的关键点 |
+| **Ralph Loop** | 自主循环迭代直到完成 | 过夜开发、TDD 工作流 |
+
+#### Ralph Loop 自主循环
 
 基于 [Geoffrey Huntley 的技术](https://ghuntley.com/ralph/)，让 Claude **自主迭代开发直到完成**：
 
@@ -188,6 +213,8 @@ Claude 的"记忆文件"，让 Claude 了解你的项目：
 - Y Combinator 黑客马拉松**一夜生成 6 个仓库**
 - **$50k 合同仅花费 $297 API 费用**完成
 - 用此方法 3 个月创建了一整门编程语言
+
+详细配置请参考 `/setup-ralph-loop` 命令。
 
 ---
 
@@ -345,6 +372,15 @@ your-project/
 - [Claude Code 文档](https://docs.anthropic.com/claude-code)
 - [Geoffrey Huntley Ralph 技术](https://ghuntley.com/ralph/)
 - [Ralph Wiggum 插件](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum)
+
+---
+
+## 致谢
+
+本项目的核心理念和最佳实践来自以下贡献者：
+
+- **[Boris Cherny](https://x.com/bcherny)** - Claude Code 创建者，《Programming TypeScript》作者，本项目基于他分享的 13 个高级技巧
+- **[Geoffrey Huntley](https://ghuntley.com/)** - Ralph Loop 自主循环技术的发明者
 
 ---
 

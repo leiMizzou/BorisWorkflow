@@ -104,6 +104,16 @@ claude plugin install figma@claude-plugins-official
 | postgres | PostgreSQL 数据库 |
 | slack | Slack 通知 |
 
+### 企业工具集成插件（Boris 第 11 条）
+
+Boris 推荐通过 MCP 服务器连接 Slack、BigQuery、Sentry 等工具，实现自动化工作流集成。
+
+| 插件名 | 功能 | 用途 |
+|--------|------|------|
+| slack | Slack 消息和通知 | 任务完成通知、团队沟通 |
+| sentry | 错误追踪集成 | 查看和分析生产错误 |
+| bigquery | BigQuery 数据仓库 | 查询和分析数据 |
+
 ### DevOps 插件
 
 | 插件名 | 功能 |
@@ -189,6 +199,52 @@ claude plugin install figma@claude-plugins-official
     "filesystem": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem", "${PWD}"]
+    }
+  }
+}
+```
+
+### 企业工具预设 (--preset enterprise)
+
+Boris 第 11 条技巧：通过 MCP 服务器连接 Slack、BigQuery、Sentry 等工具。
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/slack-mcp"],
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_APP_TOKEN": "${SLACK_APP_TOKEN}"
+      }
+    },
+    "sentry": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/sentry-mcp"],
+      "env": {
+        "SENTRY_AUTH_TOKEN": "${SENTRY_AUTH_TOKEN}",
+        "SENTRY_ORG": "${SENTRY_ORG}"
+      }
+    },
+    "bigquery": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/bigquery-mcp"],
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}",
+        "BIGQUERY_PROJECT": "${BIGQUERY_PROJECT}"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
     }
   }
 }

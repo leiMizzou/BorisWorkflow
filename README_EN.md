@@ -56,15 +56,14 @@ Manually configuring these is tedious and error-prone. **BorisWorkflow packages 
 | 8 | **Subagents** | Specialized agents for specific tasks | ✅ 4 Agents |
 | 9 | **PostToolUse Hook** | Auto-format after file changes | ✅ Auto-configured |
 | 10 | **Permissions** | Preset safe permissions, avoid frequent confirmations | ✅ Preset configs |
-| 11 | **MCP Integration** | Extend Claude's capabilities (docs, browser, etc.) | ✅ Plugin configs |
-| 12 | **Long task verification** | Give Claude feedback loops to verify results | ✅ verify-app |
-| 13 | **Feedback loops** | Let Claude see execution results and improve | Design principle |
+| 11 | **Tool Integrations (MCP)** | Connect Slack, BigQuery, Sentry and other tools via MCP servers | ✅ Plugin configs |
+| 12 | **Long-Running Tasks** | Background agents, Stop hooks, Ralph Loop and other approaches | ✅ `/setup-ralph-loop` + Docs |
+| 13 | **Verification (Most Important)** | Give Claude ways to verify its work, achieve 2-3x quality improvement | ✅ verify-app Agent |
 
 **Additional Features**:
 
 | Feature | Description |
 |---------|-------------|
-| **Ralph Loop** | Geoffrey Huntley's autonomous loop technique, "code while you sleep" |
 | **One-click install** | Interactive script with auto project type detection |
 
 ---
@@ -149,25 +148,51 @@ Ask code-reviewer to review recent changes
 Ask test-generator to generate tests for src/auth.ts
 ```
 
-### 5. MCP Plugins
+### 5. MCP Plugins (Tool Integrations)
+
+**Core Plugins**:
 
 | Plugin | Function | Why Needed |
 |--------|----------|------------|
 | `context7` | Get latest docs | Avoid outdated APIs |
 | `playwright` | Browser automation | Screenshots, E2E tests |
 | `github` | GitHub API | Issue, PR management |
-| `figma` | Design to code | UI development, design fidelity |
-| `office` | Word/Excel/PPT | Document generation, report automation |
 | `fetch` | HTTP requests | API debugging |
 | `memory` | Persistent memory | Cross-session info storage |
+
+**Enterprise Tool Integrations** (Boris Tip #11):
+
+| Plugin | Function | Why Needed |
+|--------|----------|------------|
+| `slack` | Slack messages | Team communication, task notifications |
+| `sentry` | Error tracking | View and analyze production errors |
+| `bigquery` | BigQuery data warehouse | Query and analyze large-scale data |
+
+**Other Plugins**:
+
+| Plugin | Function | Why Needed |
+|--------|----------|------------|
+| `figma` | Design to code | UI development, design fidelity |
+| `office` | Word/Excel/PPT | Document generation, report automation |
 
 **Presets**:
 - `minimal` - Only context7 (recommended for all projects)
 - `recommended` - 5 core plugins
 - `web-dev` - Full web development + Figma
 - `data-science` - Data science suite
+- `enterprise` - Enterprise tool integrations (Slack, Sentry, BigQuery)
 
-### 6. Ralph Loop Autonomous Development
+### 6. Long-Running Tasks (Boris Tip #12)
+
+Boris recommends multiple approaches for handling long-running tasks:
+
+| Approach | Description | Use Case |
+|----------|-------------|----------|
+| **Background Agents** | Run agent tasks in background | Parallel processing multiple tasks |
+| **Stop Hooks** | Configure hooks to pause at specific conditions | Manual confirmation at critical points |
+| **Ralph Loop** | Autonomous loop iteration until completion | Overnight development, TDD workflow |
+
+#### Ralph Loop Autonomous Development
 
 Based on [Geoffrey Huntley's technique](https://ghuntley.com/ralph/), let Claude **autonomously iterate until completion**:
 
@@ -186,6 +211,8 @@ Output when done: <promise>AUTH_DONE</promise>
 - Y Combinator hackathon **6 repos generated overnight**
 - **$50k contract completed for only $297 API cost**
 - Created an entire programming language in 3 months using this method
+
+See `/setup-ralph-loop` command for detailed configuration.
 
 ---
 
@@ -349,6 +376,15 @@ your-project/
 - [Ralph Wiggum Plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum)
 - [Figma MCP Server](https://www.figma.com/blog/introducing-figma-mcp-server/)
 - [OfficeMCP](https://github.com/OfficeMCP/OfficeMCP)
+
+---
+
+## Acknowledgments
+
+The core concepts and best practices in this project come from the following contributors:
+
+- **[Boris Cherny](https://x.com/bcherny)** - Creator of Claude Code, author of "Programming TypeScript", this project is based on his 13 advanced tips
+- **[Geoffrey Huntley](https://ghuntley.com/)** - Inventor of the Ralph Loop autonomous iteration technique
 
 ---
 

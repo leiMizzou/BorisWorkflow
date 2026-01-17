@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "Enterprise tool integrations (Boris Tip #11) / 企业工具集成（Boris 第 11 条技巧）",
+  "_description": "Slack, BigQuery, Sentry and other enterprise tools / Slack、BigQuery、Sentry 等企业工具",
+  "mcpServers": {
+    "context7": {
+      "_description": "Get latest library docs / 获取最新文档",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "slack": {
+      "_description": "Slack integration for notifications and channel access / Slack 集成，通知和频道访问",
+      "command": "npx",
+      "args": ["-y", "@anthropic/slack-mcp"],
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_APP_TOKEN": "${SLACK_APP_TOKEN}"
+      }
+    },
+    "sentry": {
+      "_description": "Sentry error tracking integration / Sentry 错误追踪集成",
+      "command": "npx",
+      "args": ["-y", "@anthropic/sentry-mcp"],
+      "env": {
+        "SENTRY_AUTH_TOKEN": "${SENTRY_AUTH_TOKEN}",
+        "SENTRY_ORG": "${SENTRY_ORG}"
+      }
+    },
+    "bigquery": {
+      "_description": "Google BigQuery data warehouse / Google BigQuery 数据仓库",
+      "command": "npx",
+      "args": ["-y", "@anthropic/bigquery-mcp"],
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}",
+        "BIGQUERY_PROJECT": "${BIGQUERY_PROJECT}"
+      }
+    },
+    "github": {
+      "_description": "GitHub API integration / GitHub API 集成",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "memory": {
+      "_description": "Persistent memory across sessions / 持久化记忆",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    }
+  }
+}
