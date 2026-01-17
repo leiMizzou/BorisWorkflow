@@ -323,10 +323,10 @@ install_ralph() {
 
     get_file "commands/setup-ralph-loop.md" > ".claude/commands/setup-ralph-loop.md"
 
-    # 添加 ralph-wiggum 到 plugins
+    # 添加 ralph-loop 到 plugins
     if [[ -f ".claude/settings.json" ]] && command -v jq &> /dev/null; then
         local current=$(cat .claude/settings.json)
-        echo "$current" | jq '. + {plugins: ["ralph-wiggum"]}' > .claude/settings.json.tmp
+        echo "$current" | jq '. + {plugins: ["ralph-loop"]}' > .claude/settings.json.tmp
         mv .claude/settings.json.tmp .claude/settings.json
     fi
 

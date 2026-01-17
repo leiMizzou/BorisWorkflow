@@ -29,16 +29,17 @@ Ralph Wiggum 是 [Geoffrey Huntley 的技术](https://ghuntley.com/ralph/)，以
 
 ### 启用 Ralph Loop 插件
 
+在 Claude Code 中运行：
+
 ```bash
-# 在 Claude Code 中运行
-claude plugins:install ralph-wiggum
+/install-plugin ralph-loop
 ```
 
 或手动配置 `.claude/settings.json`：
 
 ```json
 {
-  "plugins": ["ralph-wiggum"]
+  "plugins": ["ralph-loop"]
 }
 ```
 
@@ -171,7 +172,7 @@ Claude 会：
 
 ```json
 {
-  "plugins": ["ralph-wiggum"],
+  "plugins": ["ralph-loop"],
   "permissions": {
     "allow": [
       "Bash(bun run test:*)",
