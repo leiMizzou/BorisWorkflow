@@ -1,8 +1,8 @@
 # BorisWorkflow
 
-> 基于 Boris Cherny 的 13 个 Claude Code 最佳实践，一键配置高效 AI 编程工作流
+> **🔄 用 Claude Code 学习 Claude Code 之父的开发技巧，再用这些技巧增强你的 Claude Code**
 >
-> One-click setup for an efficient AI programming workflow based on Boris Cherny's 13 Claude Code best practices
+> *Learn from the father of CC, empower your CC, with CC itself.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Compatible-blue)](https://claude.ai/code)
@@ -11,25 +11,21 @@
 
 ---
 
-## 背景
+## 这是什么？
 
-### 什么是 Claude Code？
+一套从 Claude Code 创造者 [Boris Cherny](https://x.com/bcherny) 的实战经验中提炼的工作流配置包。
 
-[Claude Code](https://claude.ai/code) 是 Anthropic 推出的 **AI 编程助手 CLI 工具**，它可以：
+**7.4M+ 浏览、98K+ 收藏**的[爆款推文](https://x.com/bcherny/status/2007179832300581177)，现在变成了可以直接使用的 Skills、Commands 和 Templates。
 
-- 理解整个代码库的上下文
-- 自动编写、修改、重构代码
-- 运行命令、执行测试
-- 创建 Git 提交和 Pull Request
-- 通过 MCP 协议扩展能力
+## 为什么特别？
 
-Claude Code 改变了开发者与 AI 协作的方式，但要充分发挥其潜力，需要正确的配置和工作流。
+这不仅仅是配置文件的集合 —— 这是 Anthropic 内部 Claude Code 团队日常使用的「**Compounding Engineering**」方法论的具象化。每一个配置都经过了高强度的实战验证。
 
 ### Boris Cherny 是谁？
 
-[Boris Cherny](https://x.com/bcherny) 是业界知名的 TypeScript 专家，O'Reilly 畅销书 **《Programming TypeScript》** 作者。
-
-2025 年初，他在 [推文](https://x.com/bcherny/status/2007179832300581177) 中分享了使用 Claude Code 的 **13 个高级技巧**，这些技巧帮助他大幅提升了开发效率，引发了开发者社区的广泛讨论。
+- 🎯 **Claude Code 创造者** - 没错，就是他发明的这个工具
+- 📚 **《Programming TypeScript》作者** - O'Reilly 畅销书
+- 💡 **13 个高级技巧的分享者** - 引发开发者社区的广泛讨论
 
 ### 为什么需要 BorisWorkflow？
 

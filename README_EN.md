@@ -1,6 +1,8 @@
 # BorisWorkflow
 
-> One-click setup for an efficient AI programming workflow based on Boris Cherny's 13 Claude Code best practices
+> **🔄 Learn from the father of Claude Code, empower your CC, with CC itself.**
+>
+> *用 Claude Code 学习 Claude Code 之父的开发技巧，再用这些技巧增强你的 Claude Code*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Compatible-blue)](https://claude.ai/code)
@@ -9,25 +11,21 @@
 
 ---
 
-## Background
+## What is this?
 
-### What is Claude Code?
+A workflow configuration package distilled from the real-world experience of Claude Code creator [Boris Cherny](https://x.com/bcherny).
 
-[Claude Code](https://claude.ai/code) is Anthropic's **AI programming assistant CLI tool** that can:
+**7.4M+ views, 98K+ bookmarks** — the [viral tweet](https://x.com/bcherny/status/2007179832300581177) is now available as ready-to-use Skills, Commands, and Templates.
 
-- Understand the entire codebase context
-- Automatically write, modify, and refactor code
-- Run commands and execute tests
-- Create Git commits and Pull Requests
-- Extend capabilities through MCP protocol
+## Why is it special?
 
-Claude Code transforms how developers collaborate with AI, but unlocking its full potential requires proper configuration and workflow.
+This isn't just a collection of config files — it's the embodiment of the "**Compounding Engineering**" methodology used daily by the Claude Code team at Anthropic. Every configuration has been battle-tested in high-intensity environments.
 
 ### Who is Boris Cherny?
 
-[Boris Cherny](https://x.com/bcherny) is a renowned TypeScript expert and author of the O'Reilly bestseller **"Programming TypeScript"**.
-
-In early 2025, he shared **13 advanced tips** for using Claude Code in a [tweet](https://x.com/bcherny/status/2007179832300581177), which significantly boosted his development efficiency and sparked widespread discussion in the developer community.
+- 🎯 **Creator of Claude Code** - Yes, he invented this tool
+- 📚 **Author of "Programming TypeScript"** - O'Reilly bestseller
+- 💡 **Shared 13 advanced tips** - Sparked widespread discussion in the developer community
 
 ### Why BorisWorkflow?
 
