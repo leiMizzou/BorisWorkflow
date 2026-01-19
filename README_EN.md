@@ -386,6 +386,25 @@ The core concepts and best practices in this project come from the following con
 
 ---
 
+## Community
+
+Questions or suggestions? Join our WeChat group:
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="./assets/wechat-group.jpg" width="200" alt="WeChat Group"/>
+      <br/>
+      <b>Scan to Join Group</b>
+    </td>
+    <td align="center">
+      <img src="./assets/wechat-helper.jpg" width="200" alt="WeChat Helper"/>
+      <br/>
+      <b>Add Helper if QR Expired</b>
+    </td>
+  </tr>
+</table>
+
 ## License
 
 MIT License

@@ -380,6 +380,25 @@ your-project/
 
 ---
 
+## 交流群
+
+有问题或建议？欢迎加入微信交流群：
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="./assets/wechat-group.jpg" width="200" alt="微信交流群"/>
+      <br/>
+      <b>扫码加入交流群</b>
+    </td>
+    <td align="center">
+      <img src="./assets/wechat-helper.jpg" width="200" alt="小助手微信"/>
+      <br/>
+      <b>群码失效请加小助手</b>
+    </td>
+  </tr>
+</table>
+
 ## License
 
 MIT License
