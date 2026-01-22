@@ -9,6 +9,8 @@
 
 [中文文档](./README.md) | English
 
+> **Part of [CC Suite](https://github.com/leiMizzou/CC-Suite)** - The Standard Library for Claude Code Workflows
+
 ---
 
 ## What is this?

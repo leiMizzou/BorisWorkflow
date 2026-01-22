@@ -9,6 +9,8 @@
 
 中文 | [English](./README_EN.md)
 
+> **[CC Suite](https://github.com/leiMizzou/CC-Suite) 成员** - Claude Code 工作流标准库
+
 ---
 
 ## 这是什么？
